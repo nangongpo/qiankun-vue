@@ -1,0 +1,18 @@
+{
+  "name": "qiankun-vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "npm-run-all install:*",
+    "install:main": "cd main && yarn",
+    "install:sub01": "cd sub01 && yarn",
+    "start:main": "cd main && yarn serve",
+    "start:sub01": "cd sub01 && yarn serve"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
