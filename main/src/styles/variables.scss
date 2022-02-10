@@ -1,0 +1,71 @@
+// 主题 
+$gray: #f0f2f5;
+$red: #f56c6c;
+$blue: #008DFC;
+$heavy-blue: #0372C9;
+$light-blue:#3A71A8;
+$green: #67c23a;
+$yellow: #e6a23c;
+$theme: $blue;
+
+$font-color: #2f3542;
+$default-border-radius: 6px;
+$default-border-color: #e6e6e6;
+
+// header
+$headerHeight: 64px;
+
+// tagsView
+$tagsViewHeight: 34px;
+
+// pageTitle
+$pageTitleHeight: 150px;
+
+// main
+$mainBg: $gray;
+
+// sidebar
+$menuText:#fff;
+$menuActiveText:#fff;
+$subMenuActiveText:#fff; // https://github.com/ElemeFE/element/issues/12951
+
+$menuBg:#08214A;
+$menuHover:#0A2D65;
+
+$subMenuBg:#273C5F;
+$subMenuHover:#0A2D65;
+
+$menuActiveBg: #055EA3;
+$menuHeight: 60px;
+
+
+$sideBarWidth: 240px;
+$sideBarMinWidth: $headerHeight - 10px;
+
+// table
+$cell-height: 30px;
+$cell-input-height: 28px;
+$border-color: #E6E6E6;
+$font-sm: 14px;
+$font-md: 18px;
+$font-lg: 20px;
+$table-header-color: #F5F7FA;
+$table-hover: #e6f4ff;
+$caret-color: rgba(0, 0, 0, .20);
+$border-radius: 4px;
+
+// the :export directive is the magic sauce for webpack
+// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
+:export {
+  theme: $theme;
+  mainBg: $mainBg;
+  menuText: $menuText;
+  menuActiveText: $menuActiveText;
+  subMenuActiveText: $subMenuActiveText;
+  menuBg: $menuBg;
+  menuHover: $menuHover;
+  subMenuBg: $subMenuBg;
+  subMenuHover: $subMenuHover;
+  sideBarWidth: $sideBarWidth;
+  headerHeight: $headerHeight;
+}

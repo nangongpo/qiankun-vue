@@ -1,3 +1,5 @@
-export { default as NavMenu } from './NavMenu.vue'
-export { default as SideMenu } from './SideMenu.vue'
-export { default as Tabs } from './Tabs.vue'
+export { default as AppMain } from './AppMain'
+export { default as Navbar } from './Navbar.vue'
+export { default as Settings } from './Settings'
+export { default as Sidebar } from './Sidebar/index.vue'
+export { default as TagsView } from './TagsView/index.vue'

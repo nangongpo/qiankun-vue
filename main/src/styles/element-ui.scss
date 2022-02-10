@@ -1,0 +1,161 @@
+/* 日期组件样式重置 */
+.el-date-editor {
+  line-height: 1;
+  vertical-align: inherit;
+  .el-range-separator {
+    width: auto;
+  }
+  &.el-date-editor--datetimerange {
+    position: relative;
+    .el-range__close-icon {
+      position: absolute;
+      top: 2px;
+      right: 5px;
+      bottom: 0;
+    }
+  }
+}
+
+.el-input__suffix {
+  .el-input__icon {
+    vertical-align: middle;
+  }
+}
+
+.el-message-box {
+  max-width: 320px;
+}
+
+/* 表单中 input, select最小宽度保持一致 */
+
+.el-form {
+  .el-input, .el-cascader {
+    min-width: 207px;
+    &.el-date-editor--datetime {
+      width: 100%
+    }
+  }
+  .el-input-number{
+    width: 207px;
+    .el-input {
+      min-width: 160px
+    }
+  }
+  .jf-select-input {
+    width: 207px
+  }
+  .el-date-editor--datetimerange {
+    width: 340px
+  }
+  .el-tree {
+    .el-tree-node__content {
+      height: 34px
+    }
+  }
+  .el-form-item {
+    &.text-block {
+      width: 100%;
+      & > .el-form-item__content {
+        width: 100%;
+      }
+    }
+  }
+}
+
+/* el-collapse */
+
+.el-collapse {
+  &.custom {
+    border-bottom-color: transparent;
+    .el-collapse-item {
+      margin-bottom: 10px
+    }
+    .el-collapse-item__header {
+      border-radius: $default-border-radius;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+      padding-left: 12px;
+      &.is-active {
+        color: $theme;
+      }
+      i {
+        &:not(.el-collapse-item__arrow) {
+          padding-right: 5px;
+        }
+      }
+    }
+    .el-collapse-item__wrap {
+      background-color: transparent;
+      border-bottom-color: transparent
+    }
+    .el-collapse-item__content {
+      line-height: inherit;
+      padding-top: 10px;
+      padding-bottom: 0;
+    }
+    .el-collapse-column {
+      min-width: 240px;
+    }
+    .el-collapse-card {
+      margin: 0 5px 10px 5px;
+      .el-card__header {
+        padding: 10px 15px;
+        font-size: initial;
+      }
+    }
+  }
+}
+
+/* message */
+.el-message {
+  &.top {
+    z-index: 5000 !important;
+  }
+}
+
+/* el-image */
+
+.el-image {
+  &.preview {
+    .el-image-viewer__close {
+      color: #fff;
+    }
+    .el-image__preview {
+      max-height: 128px;
+    }
+  }
+}
+
+/* el-dialog */
+
+.el-dialog {
+  /* 关闭图标 */
+  .el-dialog__close {
+    font-size: 20px
+  }
+  &.body-0 {
+    .el-dialog__body {
+      padding: 0
+    }
+  }
+  &.body-10 {
+    .el-dialog__body {
+      padding: 10px 20px
+    }
+  }
+
+}
+
+/* el-cascader */
+.el-popper {
+  .el-cascader-panel {
+    max-height: 204px;
+    .el-scrollbar {
+      .el-scrollbar__wrap {
+        margin: 0 !important;
+        overflow: auto;
+      }
+    }
+  }
+}

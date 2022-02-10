@@ -1,0 +1,19 @@
+// 引入外部图标
+@import '~@/assets/iconfont/iconfont.css';
+
+[class^=el-icon-new],
+[class*=' el-icon-new'] {
+  font-family: 'iconfont' !important;
+  font-size: 20px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.el-button {
+  i {
+    &[class*=el-icon-new] {
+      font-size: inherit
+    }
+  }
+}

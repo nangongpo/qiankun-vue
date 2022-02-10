@@ -1,0 +1,233 @@
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar-track-piece {
+    background: #d3dce6;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #99a9bf;
+    border-radius: 20px;
+  }
+}
+
+@mixin relative {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+@mixin background($bg, $url) {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: $bg url($url) no-repeat;
+}
+
+@mixin pct($pct) {
+  width: #{$pct};
+  position: relative;
+  margin: 0 auto;
+}
+
+@mixin triangle($width, $height, $color, $direction) {
+  $width: $width/2;
+  $color-border-style: $height solid $color;
+  $transparent-border-style: $width solid transparent;
+  height: 0;
+  width: 0;
+
+  @if $direction==up {
+    border-bottom: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==right {
+    border-left: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+
+  @else if $direction==down {
+    border-top: $color-border-style;
+    border-left: $transparent-border-style;
+    border-right: $transparent-border-style;
+  }
+
+  @else if $direction==left {
+    border-right: $color-border-style;
+    border-top: $transparent-border-style;
+    border-bottom: $transparent-border-style;
+  }
+}
+
+@mixin slash($width, $height, $angle: 45deg, $color: #c7c7c7, $percent: 49.5%) {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: $width;
+  height: $height;
+  background: linear-gradient($angle, transparent $percent, $color $percent, $color 100 - $percent, transparent 100 - $percent);
+}
+
+@mixin flex ($class: 'flex', $length:24) {
+  .#{$class} {
+    @for $i from 1 through $length {
+      &.#{$class}-#{$i} { flex: $i; }
+    }
+  }
+}
+
+@mixin top-line($c: #c7c7c7, $w: 1px) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: $w;
+  border-top: $w solid $c;
+  color: $c;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    transform: scaleY(0.333333333);
+  }
+}
+
+@mixin bottom-line($c: #E6E6E6, $w: 1px) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: $w;
+  border-bottom: $w solid $c;
+  color: $c;
+  transform-origin: 0 100%;
+  transform: scaleY(0.5);
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    transform: scaleY(0.333333333);
+  }
+}
+
+@mixin left-line($c: #c7c7c7, $w: 1px) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: $w;
+  bottom: 0;
+  border-left: $w solid $c;
+  color: $c;
+  transform-origin: 0 0;
+  transform: scaleX(0.5);
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    transform: scaleX(0.333333333);
+  }
+}
+
+@mixin right-line($c: #c7c7c7, $w: 1px) {
+  content: ' ';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: $w;
+  bottom: 0;
+  border-right: $w solid $c;
+  color: $c;
+  transform-origin: 100% 0;
+  transform: scaleX(0.5);
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    transform: scaleX(0.333333333);
+  }
+}
+
+@mixin line($c: #c7c7c7, $border-radius: 0) {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 200%;
+  border: 1px solid $c;
+  color: $c;
+  transform-origin: left top;
+  @if ($border-radius != 0) {
+    border-radius: $border-radius * 2;
+  }
+  transform: scale(0.5);
+  @media (-webkit-min-device-pixel-ratio: 3), (min-device-pixel-ratio: 3) {
+    @if ($border-radius != 0) {
+      border-radius: $border-radius * 3;
+    }
+    width: 300%;
+    height: 300%;
+    transform: scale(0.333333333);
+  }
+}
+
+// 一像素上边框
+@mixin border-top-1px($color: #c7c7c7) {
+  position: relative;
+  &:before {
+    @include top-line($color);
+  }
+}
+
+// 一像素下边框
+@mixin border-bottom-1px($color: #c7c7c7) {
+  position: relative;
+  &:after {
+    @include bottom-line($color);
+  }
+}
+
+// 一像素上下边框
+@mixin border-top-bottom-1px($color: #c7c7c7) {
+  position: relative;
+  &:before {
+    @include top-line($color);
+  }
+  &:after {
+    @include bottom-line($color);
+  }
+}
+
+// 一像素左边框
+@mixin border-left-1px($color: #c7c7c7) {
+  position: relative;
+  &:before {
+    @include left-line($color);
+  }
+}
+
+// 一像素右边框
+@mixin border-right-1px($color: #c7c7c7) {
+  position: relative;
+  &:before {
+    @include right-line($color);
+  }
+}
+
+// 一像素边框
+@mixin border-1px($color: #c7c7c7, $position: relative, $border-radius: 0) {
+  position: $position;
+  &:after {
+    @include line($color, $border-radius);
+  }
+}

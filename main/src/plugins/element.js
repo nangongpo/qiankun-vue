@@ -1,4 +1,5 @@
 import {
+  Scrollbar,
   Pagination,
   Dialog,
   Autocomplete,
@@ -80,6 +81,7 @@ import {
 } from 'element-ui'
 
 const components = [
+  Scrollbar,
   Pagination,
   Dialog,
   Autocomplete,

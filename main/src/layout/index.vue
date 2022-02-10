@@ -1,107 +1,143 @@
 <template>
-  <el-container style="height: 100%">
-    <el-aside width="240px" style="text-align: left">
-      <side-menu/>
-    </el-aside>
-    <el-container>
-      <el-header>
-        <nav-menu/>
-      </el-header>
-      <tabs/>
-      <el-main>
-        <slot></slot>
-      </el-main>
-    </el-container>
-  </el-container>
+  <div :class="classObj" class="app-wrapper">
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar class="sidebar-container" />
+    <div :class="{hasTagsView:needTagsView}" class="main-container">
+      <div :class="{'fixed-header':fixedHeader}">
+        <navbar />
+        <tags-view v-if="needTagsView" />
+      </div>
+      <app-main />
+      <right-panel v-if="showSettings">
+        <settings />
+      </right-panel>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { SideMenu, NavMenu, Tabs } from './components/index'
+import RightPanel from '@/components/RightPanel'
+import { getLastLevelNode, homeMenuData } from '@/utils'
+import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import ResizeMixin from './mixin/ResizeHandler'
+
 export default {
   name: 'Layout',
   components: {
-    SideMenu,
-    NavMenu,
-    Tabs
+    AppMain,
+    Navbar,
+    RightPanel,
+    Settings,
+    Sidebar,
+    TagsView
   },
+  mixins: [ResizeMixin],
   computed: {
     ...mapState({
-      menus: (state) => state.permission.menus
-    })
+      menuList: (state) => state.permission.menuList,
+      tabsList: (state) => state.tabs.tabsList,
+      sidebar: state => state.device.sidebar,
+      device: state => state.device.deviceType,
+      showSettings: state => state.settings.showSettings,
+      needTagsView: state => state.settings.tagsView,
+      fixedHeader: state => state.settings.fixedHeader
+    }),
+    classObj() {
+      return {
+        hideSidebar: !this.sidebar.opened,
+        openSidebar: this.sidebar.opened,
+        withoutAnimation: this.sidebar.withoutAnimation,
+        mobile: this.device === 'mobile'
+      }
+    }
   },
   mounted() {
-    const homeMenuData = {
-      title: '首页',
-      moduleName: 'Home',
-      path: '/home',
-      meta: { isTabs: false, isSide: false, isMain: true }
-    }
-    // 当前页面持久化
-    const currentPage = sessionStorage.getItem('currentPage')
-    if (currentPage) {
-      this.filterMenus({ path: currentPage })
-      this.$store.commit('UPDATE_CURRENT_PAGE', currentPage)
-    } else {
-      // 过滤左侧菜单
-      const currentMenu = sessionStorage.getItem('currentMenu')
-      if (currentMenu) {
-        this.filterMenus({ moduleName: currentMenu })
-      } else {
-        this.$store.commit('UPDATE_SUB_MENU', true)
-        this.$store.commit('UPDATE_TABS_LIST', homeMenuData)
-        this.$store.commit('UPDATE_CURRENT_PAGE', '/home')
-      }
-    }
+    this.initData()
   },
   methods: {
-    filterMenus(valuse) {
-      const _this = this
-      if (valuse && valuse.moduleName) {
-        this.menus.forEach((element) => {
-          if (element.moduleName === valuse.moduleName) {
-            this.$actions.setGlobalState({ routers: _this.menus })
-            this.$store.commit('UPDATE_CURRENT_MODULE_NAME', valuse.moduleName)
-            this.$store.commit('UPDATE_SUB_MENU', element.menuList)
-            this.$store.commit('UPDATE_TABS_LIST', element.menuList[0])
-          }
-        })
-      } else if (valuse && valuse.path) {
-        this.menus.forEach((element) => {
-          for (let i = 0, length = element.menuList.length; i < length; i += 1) {
-            const item = element.menuList[i]
-            if (item.path === valuse.path) {
-              this.$store.commit('UPDATE_CURRENT_MODULE_NAME', element.moduleName)
-              this.$actions.setGlobalState({ routers: _this.menus })
-              this.$store.commit('UPDATE_SUB_MENU', element.menuList)
-              this.$store.commit('UPDATE_TABS_LIST', item)
-            }
-          }
-        })
+    initData() {
+      // 初始化全局下发的数据
+      this.$actions.setGlobalState({
+        userInfo: this.$store.state.user.userInfo,
+        globalConfig: this.$store.state.user.globalConfig,
+        routers: this.$store.state.permission.routers
+      })
+      // 获取页面持久化数据
+      const currentPage = sessionStorage.getItem('currentPage')
+      const currentApp = sessionStorage.getItem('currentApp')
+      // 处理关闭前页面是首页的情况
+      if (currentApp && currentApp === 'main' && currentPage && currentPage === '/home') {
+        this.$store.commit('permission/UPDATE_SUB_MENU', true)
+        this.$store.commit('permission/UPDATE_CURRENT_MODULE_NAME', 'main')
+        this.$store.commit('tabs/UPDATE_TABS_LIST', homeMenuData)
+
+        return false
       }
+      // 处理关闭前非首页页面持久化逻辑
+      if (currentPage && currentApp && currentApp !== 'main') {
+      // 获取左侧菜单数据
+        const menu = this.menuList.filter((element) => {
+          return element.moduleName === currentApp
+        })
+        this.$store.commit('permission/UPDATE_SUB_MENU', menu[0].menuList)
+        // 跳转页面
+        const pages = getLastLevelNode(menu[0].menuList)
+        if (Array.isArray(pages)) {
+          const page = pages.filter((element) => {
+            return element.path === currentPage
+          })
+          this.$store.commit('tabs/UPDATE_TABS_LIST', page[0])
+        }
+      } else {
+        this.$store.commit('permission/UPDATE_SUB_MENU', true)
+        this.$store.commit('tabs/UPDATE_TABS_LIST', homeMenuData)
+      }
+    },
+    handleClickOutside() {
+      this.$store.dispatch('device/closeSideBar', { withoutAnimation: false })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.el-header,
-.el-footer {
-  padding: 0;
-  color: #333;
-  text-align: center;
-  background-color: #fff;
+.app-wrapper {
+  @include clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  &.mobile.openSidebar {
+    position: fixed;
+    top: 0;
+  }
 }
-.el-main::-webkit-scrollbar {
-  display: none;
+
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
 }
-.el-main {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: calc(100% - #{$sideBarWidth});
+  transition: width 0.28s;
 }
-.el-main {
-  margin: 0 0.1rem 0.1rem;
-  padding: 0.2rem;
-  background-color: #fff;
+
+.hideSidebar .fixed-header {
+  width: calc(100% - #{$sideBarMinWidth})
+}
+
+.mobile .fixed-header {
+  width: 100%;
 }
 </style>

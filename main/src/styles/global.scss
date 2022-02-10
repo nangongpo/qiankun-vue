@@ -1,0 +1,180 @@
+@import './reset.min.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './iconfont.scss';
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: $mainBg;
+}
+
+#main {
+  height: 100%;
+}
+
+.app-container {
+  padding: 20px;
+}
+
+.app-content {
+  padding: 10px;
+}
+
+.pointer {
+  cursor: pointer
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.font-bold {
+  font-weight: 700
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+.m-0 {
+  margin: 0
+}
+
+.mt-10 {
+  margin-top: 10px
+}
+
+.mb-10 {
+  margin-bottom: 10px
+}
+
+.ml-10 {
+  margin-left: 10px
+}
+
+.mr-10 {
+  margin-right: 10px
+}
+
+.mb-20 {
+  margin-bottom: 20px
+}
+
+.pl-10 {
+  padding-left: 10px
+}
+
+.pr-10 {
+  padding-right: 10px
+}
+
+.pl-20 {
+  padding-left: 20px
+}
+
+.p-0 {
+  padding: 0
+}
+
+.border {
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+.text-block {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-primary {
+  color: $blue;
+}
+
+.text-success {
+  color: $green;
+}
+
+.text-warning {
+  color: $yellow;
+}
+
+.text-info {
+  color: #999999;
+}
+
+.text-danger {
+  color: $red;
+}
+
+.text-overflow {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+}
+
+.text-indent {
+  text-indent: 28px;
+}
+
+.text-delete {
+  text-decoration: line-through;
+  color: #999
+}
+
+aside {
+  background: #eef1f6;
+  padding: 8px 24px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  display: block;
+  line-height: 32px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  a {
+    color: #337ab7;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}

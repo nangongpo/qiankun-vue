@@ -1,11 +1,15 @@
-const packageName = require('./package').name
+const packageName = require('./package.json').name
+const isProd = process.env.NODE_ENV === 'production'
+const port = process.env.VUE_APP_PORT
 
-// const publicPath = process.env.NODE_ENV === 'production' ? 'https://xxx/' : `http://localhost:${port}`
+const publicPath = isProd ? '/' : `http://localhost:${port}`
 
 module.exports = {
-  assetsDir: './',
+  outputDir: `../dist/${packageName}`,
+  publicPath,
+  assetsDir: 'static',
   devServer: {
-    port: process.env.VUE_APP_PORT,
+    port,
     disableHostCheck: true,
     headers: {
       'Access-Control-Allow-Origin': '*'

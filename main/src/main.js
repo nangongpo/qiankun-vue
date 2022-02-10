@@ -3,13 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import 'qiankun-vue2-common/style/index.scss'
-import 'qiankun-vue2-common/iconfont/iconfont.css'
-
 import ElementUI from './plugins/element.js'
+import './styles/global.scss'
+
 Vue.use(ElementUI, { size: 'small' })
 
-import './qiankun'
+import { qiankunActions } from './qiankun/index'
+Vue.prototype.$actions = qiankunActions
 
 Vue.config.productionTip = false
 

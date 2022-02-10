@@ -19,22 +19,12 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState({
-      menus: (state) => state.permission.menus,
+      menuList: (state) => state.permission.menuList,
       currentPage: (state) => state.permission.currentPage,
       tabsList: (state) => state.tabs.tabsList
     })
   },
   methods: {
-    filterMenus(valuse) {
-      if (valuse) {
-        this.menus.forEach((element) => {
-          if (element.moduleName === valuse) {
-            this.$actions.setGlobalState({ routers: element.menuList })
-            this.$store.commit('UPDATE_SUB_MENU', element.menuList)
-          }
-        })
-      }
-    },
     // 获取元素数组下标
     getArrayIndex(arr, obj) {
       for (let index = 0; index < arr.length; index++) {
@@ -47,13 +37,16 @@ export default {
     },
     // 跳转tabs标签
     handleClick(item) {
-      if (this.currentPage === item.path) {
-        return false
+      if (this.currentPage === item.path) return false
+      // 设置左侧菜单数据
+      if (item.path !== '/home') {
+        const menu = this.menuList.filter((element) => {
+          return element.moduleName === item.meta.moduleName
+        })
+        this.$store.commit('permission/UPDATE_SUB_MENU', menu[0].menuList)
+        this.$router.push({ path: item.path })
       } else {
-        this.$store.commit('UPDATE_CURRENT_PAGE', item.path)
-        this.filterMenus(item.moduleName)
-        this.$store.commit('UPDATE_CURRENT_MODULE_NAME', item.moduleName)
-        sessionStorage.setItem('currentPage', item.path)
+        this.$store.commit('permission/UPDATE_SUB_MENU', true)
         this.$router.push({ path: item.path })
       }
     },
@@ -64,10 +57,10 @@ export default {
       const indexOf = this.getArrayIndex(this.tabsList, item.name)
       if (tabsListLength === indexOf) {
         // 删除最后一个
-        this.$store.dispatch('REMOVE_LAST_TAB', item)
+        this.$store.dispatch('tabs/REMOVE_LAST_TAB', item)
       } else {
         // 删除除了第一个跟最后一个
-        this.$store.dispatch('REMOVE_ANY_TAB', {
+        this.$store.dispatch('tabs/REMOVE_ANY_TAB', {
           indexOf,
           tabsItem: item
         })

@@ -1,22 +1,27 @@
 <template>
-  <div class="about">
-    <h1>sub01</h1>
-    <el-button type="primary" @click="update">更新姓名</el-button>
+  <div class="about app-container">
+    修改用户名：<el-input :value="user.name" style="width: 200px" @input="update" />
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
+  data() {
+    return {
+      username: ''
+    }
+  },
   computed: {
     ...mapState('global', {
-      user: (state) => state.user // 获取父应用的user信息
+      user: (state) => state.userInfo // 获取父应用的user信息
     })
   },
   methods: {
     ...mapActions('global', ['setGlobalState']),
-    update() {
-      this.setGlobalState({ userInfo: { name: 'sub01的张三' }})
+    update(name) {
+      console.log('姓名', name)
+      this.setGlobalState({ userInfo: { name }})
     }
   }
 }

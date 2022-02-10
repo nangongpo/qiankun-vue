@@ -15,13 +15,13 @@ module.exports = {
 
   // A page object can have elements
   elements: {
-    appContainer: '#app'
+    appContainer: '#main'
   },
 
   // Or a page objects can also have sections
   sections: {
     app: {
-      selector: '#app',
+      selector: '#main',
 
       elements: {
         logo: 'img'
@@ -36,7 +36,7 @@ module.exports = {
 
         welcome: {
           // the equivalent css selector for the "welcome" sub-section would be:
-          //  '#app div.hello'
+          //  '#main div.hello'
           selector: 'div.hello',
 
           elements: {

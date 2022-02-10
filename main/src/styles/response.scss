@@ -1,0 +1,13 @@
+@media screen and (max-width: 380px) {
+  .el-message {
+    min-width: 300px;
+    padding: 10px 10px 10px 15px;
+  }
+
+  .el-form {
+    .el-form-item__label {
+      width: 100% !important;
+      text-align: left
+    }
+  }
+}

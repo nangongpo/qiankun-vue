@@ -1,32 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import permission from './modules/permission'
-import tabs from './modules/tabs'
+import getters from './getters'
 
 Vue.use(Vuex)
 
+const modulesFiles = require.context('./modules', true, /\.js$/)
+
+// you do not need `import app from './modules/app'`
+// it will auto require all vuex module from modules file
+const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+  // set './app.js' => 'app'
+  const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
+  const value = modulesFiles(modulePath)
+  modules[moduleName] = value.default
+  return modules
+}, {})
+
 export default new Vuex.Store({
-  state: {
-    userInfo: { name: 'qiankun' },
-    globalConfig: { formSize: 'small' }
-  },
-  mutations: {
-    UPDATE_USER_INFO_ITEM(state, payload) {
-      state[payload.key] = payload.value
-    },
-    UPDATE_GLOBAL_CONFIG_ITEM(state, payload) {
-      state[payload.key] = payload.value
-    },
-    UPDATE_USER_INFO(state, payload) {
-      state.userInfo = payload
-    },
-    UPDATE_GLOBAL_CONFIG(state, payload) {
-      state.globalConfig = payload
-    }
-  },
-  actions: {},
-  modules: {
-    permission,
-    tabs
-  }
+  modules,
+  getters
 })

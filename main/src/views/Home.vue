@@ -1,3 +1,3 @@
 <template>
-  <div class="about">主应用首页</div>
+  <div class="app-container">主应用首页</div>
 </template>

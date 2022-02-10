@@ -7,13 +7,24 @@ import common from 'qiankun-vue2-common'
 
 import ElementUI from './plugins/element.js'
 
+Vue.mixin({
+  methods: {
+    jumpPage(path, moduleName) {
+      // 通知主应用发生了页面跳转
+      this.$setGlobalState({
+        currentRoute: { currentPage: path, currentModuleName: moduleName }
+      })
+    }
+  }
+})
+
 Vue.config.productionTip = false
 
 let instance = null
 function render(props = {}) {
-  const { container } = props
-  const globalConfig = props.getGlobalState('globalConfig')
-  Vue.use(ElementUI, { size: globalConfig.formSize || 'small' })
+  const { container, setGlobalState } = props
+  Vue.use(ElementUI, { size: 'small' })
+  Vue.prototype.$setGlobalState = setGlobalState
 
   instance = new Vue({
     router,
@@ -28,10 +39,10 @@ if (!window.__POWERED_BY_QIANKUN__) {
 }
 
 export async function bootstrap(props) {
-  console.log('[vue] vue app bootstraped', props)
+  // console.log('[vue] vue app bootstraped', props)
 }
 export async function mount(props) {
-  console.log('[vue] props from main framework', props)
+  // console.log('[vue] props from main framework', props)
   common.initGlobalState(store, props)
   render(props)
 }

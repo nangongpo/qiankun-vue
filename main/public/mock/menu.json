@@ -3,24 +3,53 @@
     "moduleTitle": "子应用1",
     "moduleName": "sub01",
     "icon": "子应用1",
+    "type": "module",
+    "redirect": "/sub01/home",
     "menuList": [
       {
-        "title": "应用跳转",
+        "title": "应用管理",
         "moduleName": "sub01",
-        "name": "sub01home",
-        "path": "/sub01/home",
-        "component": "/home",
-        "icon": "home",
-        "meta": { "isTabs": true, "isSide": true }
+        "name": "sub01",
+        "path": "/sub01",
+        "component": null,
+        "type": "catalogue",
+        "icon": "el-icon-menu",
+        "meta": {},
+        "children": [
+          {
+            "title": "应用跳转",
+            "moduleName": "sub01",
+            "name": "sub01home",
+            "path": "/sub01/home",
+            "component": "/home",
+            "children": [],
+            "type": "menu",
+            "icon": "el-icon-menu",
+            "meta": {}
+          },
+          {
+            "title": "数据修改",
+            "moduleName": "sub01",
+            "name": "sub01changeData",
+            "path": "/sub01/changeData",
+            "component": "/changeData",
+            "children": [],
+            "type": "menu",
+            "icon": "el-icon-menu",
+            "meta": {}
+          }
+        ]
       },
       {
-        "title": "数据修改",
+        "title": "关于子应用",
         "moduleName": "sub01",
         "name": "sub01about",
         "path": "/sub01/about",
         "component": "/about",
-        "icon": "about",
-        "meta": { "isTabs": true, "isSide": true }
+        "children": [],
+        "type": "menu",
+        "icon": "el-icon-menu",
+        "meta": {}
       }
     ]
   }
